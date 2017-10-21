@@ -1,0 +1,27 @@
+/**
+ * 
+ */
+
+/**
+ * @author Zeph Nord
+ * @version Lab01 
+ * @version Date
+ * @version Winter 2017
+ */
+public class BinaryHeapUtilities {
+	
+	/**
+	 * Calculates the height of the heap given it's size. This will involve a log(base2)
+	 * @param size - the number of elements in the heap
+	 * @return the height of the heap
+	 * @throws IllegalArgumentException - if the specified size is non-positive
+	 */
+	public static int height(int size) {
+		//TODO
+		return 0;
+	}
+	
+	public static <T extends Comparable<? super T>> boolean isHeap(T[] heap, int size) {
+		
+	}
+}

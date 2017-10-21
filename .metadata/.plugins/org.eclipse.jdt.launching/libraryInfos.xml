@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<libraryInfos>
+<libraryInfo home="C:\Compilers\Java Development Kit\jre" version="1.8.0_60">
+<bootpath>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\resources.jar"/>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\rt.jar"/>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\sunrsasign.jar"/>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\jsse.jar"/>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\jce.jar"/>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\charsets.jar"/>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\jfr.jar"/>
+<entry path="C:\Compilers\Java Development Kit\jre\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\ext"/>
+<entry path="C:\Windows\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+<libraryInfo home="M:\Programs\Java Dev Kit\jre" version="1.8.0_65">
+<bootpath>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\resources.jar"/>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\rt.jar"/>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\sunrsasign.jar"/>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\jsse.jar"/>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\jce.jar"/>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\charsets.jar"/>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\jfr.jar"/>
+<entry path="M:\Programs\Java Dev Kit\jre\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\ext"/>
+<entry path="C:\WINDOWS\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+<libraryInfo home="M:\Programs\Java Dev Kit" version="1.8.0_65">
+<bootpath>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\resources.jar"/>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\rt.jar"/>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\sunrsasign.jar"/>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\jsse.jar"/>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\jce.jar"/>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\charsets.jar"/>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\jfr.jar"/>
+<entry path="M:\Programs\Java Dev Kit\jre\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\ext"/>
+<entry path="C:\WINDOWS\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="M:\Programs\Java Dev Kit\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+<libraryInfo home="C:\Compilers\Java Development Kit" version="1.8.0_60">
+<bootpath>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\resources.jar"/>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\rt.jar"/>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\sunrsasign.jar"/>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\jsse.jar"/>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\jce.jar"/>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\charsets.jar"/>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\jfr.jar"/>
+<entry path="C:\Compilers\Java Development Kit\jre\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\ext"/>
+<entry path="C:\Windows\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="C:\Compilers\Java Development Kit\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+</libraryInfos>

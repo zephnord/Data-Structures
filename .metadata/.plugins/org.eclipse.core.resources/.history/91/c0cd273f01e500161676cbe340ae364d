@@ -1,0 +1,79 @@
+/**
+ * JUnit Sample tests for BSC class (Balanced Symbol Checker). 
+ *
+ * @author Paul Hatalsky
+ * @version 1/23/2017 Developed for CPE 103 Lab 3 
+ */
+import static org.junit.Assert.*;
+import org.junit.*;
+import org.junit.runners.MethodSorters;
+import org.junit.rules.*;
+import org.junit.runner.Description;
+import java.util.concurrent.TimeUnit;
+import java.io.*;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class BSCSampleTests
+{
+   @Rule 
+   public TestWatcher watcher = new TestWatcher() {
+      protected void starting(Description description) {
+         System.out.printf("\b\bStarting: %-48s", description.getMethodName());
+      }
+   };
+   
+   @Rule 
+   public Stopwatch sw = new Stopwatch() {
+      String s;
+      protected void finished(long nanos, Description description) {
+         System.out.println(s);
+      }
+      protected void succeeded(long nanos, Description description) {
+         s = "Passed" + " (" + runtime(TimeUnit.MILLISECONDS) + " ms)";
+      }
+      protected void failed(long nanos, Throwable e, Description description) {
+         s = "FAILED" + " (" + runtime(TimeUnit.MILLISECONDS) + " ms)";        
+      }
+   };
+
+   // A single, very trivial test is below!
+   @Test
+   public void test01_simpleString() 
+   {
+      assertTrue(BSC.isBalanced("[hello]"));
+   }
+   
+   @Test
+   public void test02() {
+	   assertTrue(BSC.isBalanced("<<>>"));
+	   assertFalse(BSC.isBalanced("<<>"));
+   }
+   
+   @Test
+   public void testEmptyString() {
+	   assertTrue(BSC.isBalanced(""));
+   }
+   
+   @Test
+   public void testNoBrackets() {
+	   assertTrue(BSC.isBalanced("No brackets in this string"));
+   }
+   
+   @Test
+   public void testUnbalancedStrings() {
+	   assertFalse(BSC.isBalanced("(((("));
+	   assertFalse(BSC.isBalanced("<><><)]"));
+	   assertFalse(BSC.isBalanced("[{{][][]}}}}"));
+	   assertFalse(BSC.isBalanced("advdf<><"));
+	   assertFalse(BSC.isBalanced("]"));
+   }
+   
+   @Test
+   public void testBalancedStrings() {
+	   assertTrue(BSC.isBalanced(""));
+	   assertTrue(BSC.isBalanced("asdfa()sdf"));
+	   assertTrue(BSC.isBalanced("<<>>asdf()adf"));
+	   assertTrue(BSC.isBalanced("23231<>"));
+	   assertTrue(BSC.isBalanced("[[[<<(())>>]]"));
+   }
+}

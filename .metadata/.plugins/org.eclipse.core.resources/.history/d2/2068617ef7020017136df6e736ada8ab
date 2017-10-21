@@ -1,0 +1,327 @@
+
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+
+/**
+ * Contains the PriorityQueue implementation of the SimpleQueue interface.
+ * Includes additional methods such as array sorting and finding the kth largest
+ * element in an array. Implemented using an array rather than an ArrayList.
+ * 
+ * @author Zeph Nord
+ * @version Program3
+ * @version CPE 103-03
+ * @version Winter 2017
+ */
+public class PriorityQueue<T extends Comparable<? super T>> implements SimpleQueue<T> {
+	// Class fields
+	private T[] queue;
+	private int size;
+	private boolean isMax;
+
+	// Class constructors
+
+	public PriorityQueue() {
+		this(false);
+	}
+
+	/**
+	 * Creates a PriorityQueue
+	 * 
+	 * @param isMax
+	 *            - when true, creates a maximum queue, otherwise a minimum
+	 *            queue
+	 */
+	@SuppressWarnings("unchecked")
+	public PriorityQueue(boolean isMax) {
+		this.size = 1;
+		queue = (T[]) new Comparable[1000001];
+		this.isMax = isMax;
+	}
+
+	/**
+	 * Creates a minimum PriorityQueue containing the elements in the specified
+	 * array. The array is NOT a binary heap. This constructor must build a
+	 * priority queue with these values. Performs in O(nlogn) time.
+	 * 
+	 * @param arr
+	 *            - the array whose elements are to be placed into this priority
+	 *            queue
+	 * @param size
+	 *            - the number of elements in the specified array (will be less
+	 *            than or equal to the length of the array)
+	 */
+	public PriorityQueue(T[] arr, int size) {
+		this(arr, size, false);
+	}
+
+	/**
+	 * Creates a maximum PriorityQueue containing the elements in the specified
+	 * array. The array is NOT a binary heap. This constructor must build a
+	 * priority queue with these values. Performs in O(nlogn) time.
+	 * 
+	 * @param arr
+	 *            - the array whose elements are to be placed into this priority
+	 *            queue
+	 * @param size
+	 *            - the number of elements in the specified array (will be less
+	 *            than or equal to the length of the array)
+	 * @param isMax
+	 *            - when true, creates a maximum queue, otherwise a minimum
+	 *            queue
+	 */
+	@SuppressWarnings("unchecked")
+	public PriorityQueue(T[] arr, int size, boolean isMax) {
+		this.size = 1;
+		queue = (T[]) new Comparable[1000001];
+		this.isMax = isMax;
+		for (int i = 0; i < size; i++) {
+			enqueue(arr[i]);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see SimpleQueue#dequeue()
+	 */
+	@Override
+	public T dequeue() throws RuntimeException {
+		if (size < 2) {
+			throw new NoSuchElementException();
+		} else {
+			T tmpReturn = queue[1];
+			int back = 1;
+			queue[1] = queue[size - 1];
+			queue[size] = null;
+			// need special case if at root
+
+			if (!isMax) {
+				while (back * 2 + 1 < size - 1) {
+					if (queue[back * 2].compareTo(queue[back]) < 1 || queue[back * 2 + 1].compareTo(queue[back]) < 1) {
+						if (queue[back * 2].compareTo(queue[back * 2 + 1]) < 1) {
+							T tmpBack = queue[back];
+							queue[back] = queue[back * 2];
+							queue[back * 2] = tmpBack;
+							back = back * 2;
+						} else {
+							T tmpBack = queue[back];
+							queue[back] = queue[back * 2 + 1];
+							queue[back * 2 + 1] = tmpBack;
+							back = back * 2 + 1;
+						}
+
+					} else {
+						break;
+					}
+				}
+				if (queue[back * 2] != null && queue[back * 2 + 1] != null) {
+					if (queue[back * 2].compareTo(queue[back]) < 1 || queue[back * 2 + 1].compareTo(queue[back]) < 1) {
+						if (queue[back * 2].compareTo(queue[back * 2 + 1]) < 1) {
+							T tmpBack = queue[back];
+							queue[back] = queue[back * 2];
+							queue[back * 2] = tmpBack;
+							back = back * 2;
+						} else {
+							T tmpBack = queue[back];
+							queue[back] = queue[back * 2 + 1];
+							queue[back * 2 + 1] = tmpBack;
+							back = back * 2 + 1;
+						}
+					}
+				} else if (queue[back * 2] != null) {
+					if (queue[back * 2].compareTo(queue[back]) < 1) {
+						T tmpBack = queue[back];
+						queue[back] = queue[back * 2];
+						queue[back * 2] = tmpBack;
+						back = back * 2;
+					}
+				}
+			}
+
+			else {
+				while (back * 2 + 1 < size - 1) {
+					if (queue[back * 2].compareTo(queue[back]) > -1
+							|| queue[back * 2 + 1].compareTo(queue[back]) > -1) {
+						if (queue[back * 2].compareTo(queue[back * 2 + 1]) > -1) {
+							T tmpBack = queue[back];
+							queue[back] = queue[back * 2];
+							queue[back * 2] = tmpBack;
+							back = back * 2;
+						} else {
+							T tmpBack = queue[back];
+							queue[back] = queue[back * 2 + 1];
+							queue[back * 2 + 1] = tmpBack;
+							back = back * 2 + 1;
+						}
+
+					} else {
+						break;
+					}
+				}
+				if (queue[back * 2] != null && queue[back * 2 + 1] != null) {
+					if (queue[back * 2].compareTo(queue[back]) > -1
+							|| queue[back * 2 + 1].compareTo(queue[back]) > -1) {
+						if (queue[back * 2].compareTo(queue[back * 2 + 1]) > -1) {
+							T tmpBack = queue[back];
+							queue[back] = queue[back * 2];
+							queue[back * 2] = tmpBack;
+							back = back * 2;
+						} else {
+							T tmpBack = queue[back];
+							queue[back] = queue[back * 2 + 1];
+							queue[back * 2 + 1] = tmpBack;
+							back = back * 2 + 1;
+						}
+					}
+				} else if (queue[back * 2] != null) {
+					if (queue[back * 2].compareTo(queue[back]) > -1) {
+						T tmpBack = queue[back];
+						queue[back] = queue[back * 2];
+						queue[back * 2] = tmpBack;
+						back = back * 2;
+					}
+				}
+			}
+
+			size--;
+			return tmpReturn;
+		}
+
+	}
+
+	// Private recursive helper for dequeue
+	private void dequeueRecursion(T tmpBack, int insert) {
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see SimpleQueue#enqueue(java.lang.Object)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void enqueue(T element) {
+		if (size == queue.length - 1) {
+			T[] tmpQueue = (T[]) new Comparable[2 * queue.length];
+			for (int i = 0; i < queue.length; i++) {
+				tmpQueue[i] = queue[i];
+			}
+			queue = tmpQueue;
+		}
+		if (size == 1) {
+			queue[size] = element;
+		} else {
+			enqueueRecursion(element, size);
+		}
+		size++;
+	}
+
+	// Private recursive helper for enqueue
+	private void enqueueRecursion(T element, int rear) {
+		if (rear == 1) {
+			queue[rear] = element;
+			return;
+		} else if (!isMax) {
+			// while (rear > 1) {
+			if (queue[rear / 2].compareTo(element) > -1) {
+				queue[rear] = queue[rear / 2];
+				queue[rear / 2] = element;
+				enqueueRecursion(element, rear / 2);
+
+			} else {
+				queue[rear] = element;
+			}
+		}
+
+		else {
+			if (queue[rear / 2].compareTo(element) < 1) {
+				queue[rear] = queue[rear / 2];
+				queue[rear / 2] = element;
+				enqueueRecursion(element, rear / 2);
+
+			} else {
+				queue[rear] = element;
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see SimpleQueue#peek()
+	 */
+	@Override
+	public T peek() throws RuntimeException {
+		if (size == 1) {
+			throw new NoSuchElementException();
+		}
+		return queue[1];
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see SimpleQueue#size()
+	 */
+	@Override
+	public int size() {
+		return size - 1;
+	}
+
+	/**
+	 * Sorts the specified array into ascending order. For Example: {A, B, C,
+	 * ....Z}. PriorityQueue constructors are used to sort the data. After that
+	 * sort is completed initially, dequeueing the data from the priortityQueues
+	 * will return the data in ascending order, which can then be used to sort
+	 * the intended array
+	 * 
+	 * @param arr
+	 *            - the array to be sorted
+	 * @param size
+	 *            - the number of elements in the array to be sorted (will be
+	 *            less than or equal to the length of the array
+	 */
+	public static <E extends Comparable<? super E>> void sort(E[] arr, int size) {
+		PriorityQueue<E> pq = new PriorityQueue<E>(arr, size);
+		for (int i = 0; i < size; i++) {
+			arr[i] = pq.dequeue();
+		}
+	}
+
+	/**
+	 * Finds the kth largest element in the specified array. Uses a Priority
+	 * queue to do so.
+	 * 
+	 * @param arr
+	 *            - the array to search
+	 * @param size
+	 *            - the number of elements in the specified array (will be less
+	 *            than or equal to the length of the array)
+	 * @param k
+	 *            - which value to search for; 1 indicates the largest, 2 the
+	 *            seconds largest etc.
+	 * @return the kth largest element from the specified array
+	 */
+	public static <E extends Comparable<? super E>> E kth(E[] arr, int size, int k) {
+		if (k < size - k + 1) {
+			PriorityQueue<E> pq = new PriorityQueue<E>(arr, k, false);
+			for (int i = k; i < size; i++) {
+				if (pq.peek().compareTo(arr[i]) == -1) {
+					pq.dequeue();
+					pq.enqueue(arr[i]);
+				}
+			}
+			return pq.peek();
+		} else {
+			PriorityQueue<E> pq = new PriorityQueue<E>(arr, size - k + 1, true);
+			for (int i = size - k + 1; i < size; i++) {
+				if (pq.peek().compareTo(arr[i]) == 1) {
+					pq.dequeue();
+					pq.enqueue(arr[i]);
+				}
+			}
+			return pq.peek();
+		}
+	}
+}

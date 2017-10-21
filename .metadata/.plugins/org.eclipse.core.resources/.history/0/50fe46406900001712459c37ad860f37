@@ -1,0 +1,13 @@
+/**
+ * 
+ */
+
+/**
+ * @author Zeph Nord
+ * @version Lab01 
+ * @version Date
+ * @version Winter 2017
+ */
+public interface HashTable<T> {
+
+}

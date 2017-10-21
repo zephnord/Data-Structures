@@ -1,0 +1,371 @@
+/**
+ * Contains the implemented HashTable and HashMetrics class using quadratic
+ * probing Ideal load factor for quadratic probing is 0.5 Does not use any Java
+ * Standard Libraries
+ * 
+ * @author Zeph Nord
+ * @version Lab01
+ * @version Date
+ * @version Winter 2017
+ */
+public class HashTableQuadratic<T> implements HashMetrics, HashTable<T> {
+	// HashTableQuadtratic fields
+	private T[] hashTable;
+	private int tableSize; // size of table
+	private int size; // number of elements in table
+	private double loadFactor;
+	private long collisions;
+	private long maxCollisions;
+	private double maxLoadFactor;
+	private static final Object DUMMY_ELEMENT = new Object();
+
+	// constants
+	private static final double IDEAL_LOAD_FACTOR_QUADRATIC = 0.5;
+	private static final int SMALLEST_TABLE_SIZE = 17;
+
+	// HashTableQuadratic constructors
+	/**
+	 * Constructs an empty HashTableQuadtratic whose size is 17 and whose
+	 * maximum load factor is 0.5
+	 * 
+	 * @throws IllegalArgumentException
+	 *             - if the specified tableSize is non-positive (Will never
+	 *             happen with this constructor)
+	 */
+	public HashTableQuadratic() {
+		this(SMALLEST_TABLE_SIZE);
+	}
+
+	/**
+	 * Constructs an empty HashTableQuadratic whose size is the first prime
+	 * number greater than or equal to the specified table size and whose
+	 * maximum load factor is 0.5
+	 * 
+	 * @param tableSize
+	 *            - the desired size of this hash table; if it is not a prime
+	 *            number, the next prime number is used
+	 * @throws IllegalArgumentException
+	 *             - If the specified tableSize is non-positive.
+	 */
+	public HashTableQuadratic(int tableSize) {
+		this(tableSize, IDEAL_LOAD_FACTOR_QUADRATIC);
+	}
+
+	/**
+	 * Constructs an empty HashTableQuadratic whose size is the first prime
+	 * number greater than or equal to the specified table size and whose load
+	 * factor is set to the specified load factor
+	 * 
+	 * @param tableSize
+	 *            - the desired size of this hash table; if it is not a prime
+	 *            number, the next prime number is used
+	 * @param loadFactor
+	 *            - the maximum load factor allowed by the table
+	 * @throws IllegalArgumentException
+	 *             - if the specified tableSize or loadFactor is non-positive
+	 */
+	@SuppressWarnings("unchecked")
+	public HashTableQuadratic(int tableSize, double loadFactor) {
+		this.tableSize = tableSize;
+		this.maxLoadFactor = loadFactor;
+		this.collisions = 0;
+		this.maxCollisions = 0;
+		this.size = 0;
+		// ensure tableSize is positive
+		if (this.tableSize <= 0 || this.maxLoadFactor <= 0) {
+			throw new IllegalArgumentException();
+		}
+		// ensure tableSize is a prime number
+		else if (!PrimeTools.isPrime(this.tableSize)) {
+			this.tableSize = PrimeTools.nextPrime(this.tableSize);
+		}
+		while (loadFactor() > IDEAL_LOAD_FACTOR_QUADRATIC) {
+			this.tableSize = PrimeTools.nextPrime(this.tableSize);
+		}
+
+		hashTable = (T[]) new Object[this.tableSize]; // Must cast T[] to array
+														// of Objects to satisfy
+														// Java
+	}
+
+	// --------------HashTable methods----------------------------------
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see HashTable#contains(java.lang.Object)
+	 */
+	@Override
+	public boolean contains(T element) {
+		// long hashCode = Math.abs(element.hashCode() % tableSize());
+		long j = 0;
+		T key = element;
+		long hashCode = Math.abs(key.hashCode() % tableSize());
+
+		for(j = 0; j < tableSize() / 2; j++) {
+			hashCode = Math.abs(key.hashCode() % tableSize()) + (j * j);
+			if(hashTable[(int) hashCode] == null && hashTable[(int) hashCode] != DUMMY_ELEMENT) {
+				return false;
+			}
+			else if(key.equals(hashTable[(int) hashCode])) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see HashTable#isEmpty()
+	 */
+	@Override
+	public boolean isEmpty() {
+		if (size() == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see HashTable#add(java.lang.Object)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public T add(T element) throws IllegalArgumentException {
+		if (element == null) {
+			throw new IllegalArgumentException();
+		}
+		T tmpElement = null;
+		T key = element;
+		long j = 0;
+		long hashCode = Math.abs(key.hashCode() % tableSize());
+		
+		int tmpMaxCollisions = 0;
+		boolean added = false;
+
+		while (j <= tableSize() / 2) {
+			// check if first spot is available or key exists already
+			if (hashTable[(int) hashCode] == null || hashTable[(int) hashCode] == DUMMY_ELEMENT) {
+				if(hashTable[(int) hashCode] == DUMMY_ELEMENT) {
+					tmpElement = null;
+				}
+				else {
+					tmpElement = hashTable[(int) hashCode];
+				}				
+				hashTable[(int) hashCode] = key;
+				size++;
+				added = true;
+				break;
+			}
+			else if(hashTable[(int) hashCode].equals(key)) {
+				tmpElement = hashTable[(int) hashCode];
+				hashTable[(int) hashCode] = key;
+				added = true;
+				collisions++;
+				tmpMaxCollisions++;
+				break;
+			}
+			// else invoke quadratic probing to find a spot
+			else {
+				j++;
+				hashCode = Math.abs(key.hashCode() % tableSize()) + (j * j);
+				collisions++;
+				tmpMaxCollisions++;
+			}
+		}
+		
+		//check to see if loadFactor is not ideal and table needs to be rehashed
+		if(loadFactor() > maxLoadFactor) {
+			j = 0;
+			
+			//update the table size
+			tableSize = PrimeTools.nextPrime(tableSize * 2);
+			T[] tmpHashTable = (T[]) new Object[tableSize()];
+			for(int i = 0; i < hashTable.length; i++) {
+				if(hashTable[i] != null) {
+					key = hashTable[i];
+					hashCode = Math.abs(key.hashCode() % tableSize());
+					while (j <= tableSize() / 2) {
+						// check if first spot is available or key exists already
+						if (tmpHashTable[(int) hashCode] == null || hashTable[i].equals(tmpHashTable[(int) hashCode])) {
+							tmpElement = key;
+							tmpHashTable[(int) hashCode] = key;
+							break;
+						}
+						// else invoke quadratic probing to find a spot
+						else {
+							j++;
+							hashCode = Math.abs(key.hashCode() % tableSize()) + (j * j);
+						}
+					}
+				}
+			}
+			hashTable = tmpHashTable; //Shallow copy
+		}
+
+		if(tmpMaxCollisions > maxCollisions) {
+			maxCollisions = tmpMaxCollisions;
+		}
+		
+		if(!added) {
+			throw new HashTableInsertionException();
+		}
+		return tmpElement;
+	}
+
+	// Private helper for add function using quadratic probing for ease of
+	// replacement of any other type of probing desired
+	private void addQuadratic(T[] hashTable, T element, boolean rehash, boolean contains) {
+		// only probe for a spot tableSize / 2 max times
+		int tmpMaxCollisions = 0;
+		// long tmpHash = Math.abs(element.hashCode() % tableSize); // quadratic
+		// probe
+		// count
+		long i = 0;
+		boolean added = false;
+		if (!rehash) {
+			while (i <= tableSize() / 2) {
+				long tmpHash = Math.abs((element.hashCode() + i) % tableSize); // quadratic
+				// probe
+				if (hashTable[(int) tmpHash] == null) {
+					added = true;
+					hashTable[(int) tmpHash] = element;
+
+					break;
+				} else {
+					// could change the exponential factor for different types
+					// of probing
+					i = (int) Math.pow(++i, 2);
+					collisions++;
+					tmpMaxCollisions++;
+
+					if (tmpMaxCollisions > maxCollisions) {
+						maxCollisions = tmpMaxCollisions;
+					}
+				}
+			}
+
+		} else if (rehash) { // don't count collisions if rehashing
+			while (i <= tableSize() / 2) {
+				long tmpHash = Math.abs((element.hashCode() + i) % tableSize); // quadratic
+				// probe
+				if (hashTable[(int) tmpHash] == null) {
+					added = true;
+					hashTable[(int) tmpHash] = element;
+					break;
+				} else {
+					// could change the exponential factor for different types
+					// of probing
+					i = (int) Math.pow(++i, 2);
+				}
+			}
+		}
+		if (!added && !rehash) {
+			throw new HashTableInsertionException();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see HashTable#remove(java.lang.Object)
+	 */
+	@Override
+	public boolean remove(T element) throws IllegalArgumentException {
+		if (element == null) {
+			throw new IllegalArgumentException();
+		}
+
+		long j = 0;
+		T key = element;
+		long hashCode = Math.abs(key.hashCode() % tableSize());
+
+		for(j = 0; j < tableSize() / 2; j++) {
+			hashCode = Math.abs(key.hashCode() % tableSize()) + (j * j);
+			if(key.equals(hashTable[(int) hashTable])) {
+				return false;
+			}
+			else if(key.equals(hashTable[(int) hashCode])) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see HashTable#size()
+	 */
+	@Override
+	public int size() {
+		return size;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see HashTable#loadFactor()
+	 */
+	@Override
+	public double loadFactor() {
+		return ((double) size() / tableSize());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see HashTable#tableSize()
+	 */
+	@Override
+	public int tableSize() {
+		return tableSize;
+	}
+
+	// ---------------HashMetric methods------------------------
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see HashMetrics#collisions()
+	 */
+	@Override
+	public long collisions() {
+		return collisions;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see HashMetrics#maxCollisions()
+	 */
+	@Override
+	public int maxCollisions() {
+		return (int) maxCollisions;
+	}
+
+	/**
+	 * Throw to indicate no open spot was found when attempting to insert into
+	 * hash table
+	 */
+	@SuppressWarnings("serial")
+	public static class HashTableInsertionException extends RuntimeException {
+		/**
+		 * Constructs a MyException() with no details
+		 */
+		public HashTableInsertionException() {
+			super();
+		}
+
+		/**
+		 * Constructs a MyException() with no string details
+		 */
+		public HashTableInsertionException(String s) {
+			super(s);
+		}
+	}
+}

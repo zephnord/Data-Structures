@@ -1,0 +1,21 @@
+Iteration       O(1) push each    O(1) pop,each    O(N) pusheach    O(N) pop
+
+N = 10,000					1 ms					0 ms						41 ms				37 ms
+2N = 20,000					1 ms 					0 ms  			  131 ms			  125 ms
+4N	= 40,000					3 ms					1 ms				  497 ms			  486 ms
+8N = 80,000					5 ms					0 ms				 1990 ms,1913 ms,
+16N,6 ms,1 ms,8101 ms,7695 ms,
+32N,10 ms,3 ms,31934 ms,30820ms,
+64N,14 ms,3 ms,127757 ms,122468 ms,
+
+
+						each      	  each			 each			  each
+Iterations		O(1) push	   O(1) pop	    O(N) push    	O(N) pop
+------------------------------------------------------------------
+N = 10,000			1 ms				0 ms			41 ms				37 ms
+2N = 20,000			1 ms				0 ms			131 ms			125 ms
+4N	= 40,000			3 ms				1 ms			497 ms			486 ms
+8N						5 ms				0 ms			1990 ms			1913 ms
+16N					6 ms				1 ms			8101 ms			7695 ms
+32N				  10 ms				3 ms			31934 ms			30820ms
+64N				  14 ms				3 ms			127757 ms		122468 ms

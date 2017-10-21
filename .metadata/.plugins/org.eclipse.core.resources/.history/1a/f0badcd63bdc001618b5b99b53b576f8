@@ -1,0 +1,128 @@
+/**
+ * Contains the SimpleLinkedList class that implements the SimpleList interface
+ * This LinkedList is a generic doubly-linked implementation of SimpleList
+ * @author Zeph Nord
+ * @version Lab01 
+ * @version CPE 103-03
+ * @version Winter 2017
+ */
+public class SimpleLinkedList<T> implements SimpleList<T>{
+	private Node<T> head;
+	private Node<T> tail;
+	private int size;
+	
+	//Constructor for SimpleLinkedList
+	//Generates a node with non-null values to act as dummy nodes
+	public SimpleLinkedList() {
+		this.size = 0;
+		this.head = new Node(0);
+		this.tail = new Node(0);
+		this.head.next = tail;
+		this.tail.previous = head;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#add(java.lang.Object)
+	 */
+	@Override
+	public void add(T element) {
+		Node<T> node = new Node(element);
+		node.previous = tail.previous;
+		node.next = tail;
+		node.previous.next = node;
+		tail.previous = node;
+		size++;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#add(int, java.lang.Object)
+	 */
+	@Override
+	public void add(int index, T element) {
+		if(index < 0 || index > size) {
+			throw new IndexOutOfBoundsException();
+		}
+		Node<T> node = new Node(element);
+		Node<T> tmpNode = head.next;		
+		for(int i = 1; i < index; i++) { //get a pointer to the node to be inserted after
+			tmpNode = tmpNode.next;
+		}		
+		node.previous = tmpNode;
+		node.next = tmpNode.next;
+		if(node.next != null)
+			node.next.previous = node;
+		tmpNode.next = node;
+		size++;		
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#get(int)
+	 */
+	@Override
+	public T get(int index) {
+		if(index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		
+		Node<T> tmpNode = head.next;
+		for(int i = 0; i < index; i++) {
+			tmpNode = tmpNode.next;
+		}
+		return tmpNode.value;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#remove(int)
+	 */
+	@Override
+	public T remove(int index) {
+		if(index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		Node<T> tmpNode = head.next;
+		for(int i = 0; i < index; i++) { //get a pointer to the node to be removed
+			tmpNode = tmpNode.next;
+		}
+		tmpNode.previous.next = tmpNode.next;
+		tmpNode.next.previous = tmpNode.previous;
+		tmpNode.next = null;
+		tmpNode.previous = null;
+		size--;
+		return tmpNode.value;
+	}
+	
+	public voide reverse(Node<T> head){
+		Node<T> current = head.next;
+		Node<T> next = null;
+		Node<T> prev = null;
+		
+		while(current != tail) {
+			next = current.next;
+			current.next = prev;
+			prev = current;
+			current = next;
+		}
+		
+		head.next = current;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#size()
+	 */
+	@Override
+	public int size() {
+		return size;
+	}
+	
+	private class Node<T> {
+		private T value;
+		private Node<T> next;
+		private Node<T> previous;
+		
+		public Node(T value) {
+			this.value = value;
+			this.next = null;
+			this.previous = null;
+		}
+	}
+}

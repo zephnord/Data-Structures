@@ -1,0 +1,104 @@
+import static org.junit.Assert.*;
+
+import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.junit.AfterClass;
+import org.junit.FixMethodOrder;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.Stopwatch;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
+import org.junit.runners.MethodSorters;
+
+/**
+ * Contains unit tests for the SpellCheck class
+ * @author Zeph Nord
+ * @version Project05 
+ * @version CPE103-03
+ * @version Winter 2017
+ */
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class SpellCheckerTests {
+
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+	}
+
+	@Rule
+	public TestRule watcher = new TestWatcher() {
+		protected void starting(Description description) {
+			System.out.printf("\b\bStarting: %-60s", description.getMethodName());
+		}
+	};
+	@Rule
+	public Stopwatch sw = new Stopwatch() {
+		String s;
+
+		protected void finished(long nanos, Description description) {
+			System.out.println(s);
+		}
+
+		protected void succeeded(long nanos, Description description) {
+			s = " Passed" + " (" + runtime(TimeUnit.MILLISECONDS) + " ms)";
+		}
+
+		protected void failed(long nanos, Throwable e, Description description) {
+			s = " FAILED" + " (" + runtime(TimeUnit.MILLISECONDS) + " ms)";
+		}
+	};
+	
+	 // This test has no assertions because it's not testing correctness.  Feel
+	   // free to modify this test to assert correctness.  Storing the results is
+	   // done for compile time type checking of your return types.
+	   @Test
+	   public void test01_correctMethodNames() throws FileNotFoundException {
+	      // You'll need dictionary.txt in the same directory
+	      SpellChecker checker = new SpellChecker();
+	      SpellChecker checker2 = new SpellChecker("dictionary.txt");
+
+	      boolean b1 = checker.isWord("hello");
+	      HashTableQuadratic<String> table = checker.getDictionary();
+	      HashMap<String, SpellChecker.MyStats> map = checker.indexFile("dictionary.txt");
+
+
+	      SpellChecker.MyStats stats = map.get("hello");
+	      // If you get NullPointerException here, it means your indexFile didn't
+	      // find hello in the dictionary
+	      List<Integer> l = stats.getLineNumbers();
+	     // int i = stats.getOccurrences();
+	      boolean b2 = stats.isWord();
+	   }
+	
+	@Test
+	public void test01_addDictionary() throws FileNotFoundException {
+		SpellChecker spellChecker = new SpellChecker();
+	}
+	
+	@Test
+	public void test02_connectives() {
+		SpellChecker connectives;
+		try {
+			connectives =  new SpellChecker("connectives.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		 String[] strings = {"the", "of", "and", "to", "little", "go", "take",
+         "three"};
+
+      for (String str : strings) {
+         assertTrue(str + " is in connectives.txt", connectives.isWord(str));
+      }
+	}
+
+}

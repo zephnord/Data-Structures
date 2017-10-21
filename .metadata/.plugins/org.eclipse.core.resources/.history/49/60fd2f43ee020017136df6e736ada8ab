@@ -1,0 +1,43 @@
+/**
+ * This class contains multiple implementations of Shell sort. This class
+ * contains no instance fields, no (non-private) methods other than those
+ * specified, and no explicit constructors.
+ * 
+ * @author Zeph Nord
+ * @version Lab11
+ * @version CPE103-03
+ * @version Winter 2017
+ */
+public class ShellSorts {
+	// ShellSorts constructors
+	public ShellSorts() {
+
+	}
+
+	// ShellSorts methods
+
+	/**
+	 * Sorts the specified array into ascending order using Shell sort. This
+	 * uses the gaps of the classic shell sort: {1,2,4,8 etc.}. Enough values
+	 * are calculated to optimize the sort for the maximum observed array size.
+	 * specified
+	 * 
+	 * @type E - the type of elements in the given array
+	 * @param a
+	 *            - the array to be sorted
+	 */
+	public static <E extends Comparable<? super E>> void shell(E[] a) {
+		/*
+		 * Specified maximum array size for testing: N = 2,000,000 Use this
+		 * Repeatedly divides by 2 to represent the classic shell sort
+		 */
+		int i, j, gap;
+		E tmp;
+		
+		int N = a.length;
+		
+		for(gap )
+
+	}
+
+}

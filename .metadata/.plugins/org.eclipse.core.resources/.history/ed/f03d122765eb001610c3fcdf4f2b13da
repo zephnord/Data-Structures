@@ -1,0 +1,21 @@
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+/**
+ * 
+ */
+
+/**
+ * @author Zeph Nord
+ * @version Lab01 
+ * @version Date
+ * @version Winter 2017
+ */
+public class BinaryHeapUtilitiesTests {
+
+	@Test
+	public void testHeapHeight() {
+		T[] arr = new T[10];
+	}
+}

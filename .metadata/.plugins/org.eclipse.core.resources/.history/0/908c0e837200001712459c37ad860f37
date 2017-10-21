@@ -1,0 +1,67 @@
+import java.math.BigInteger;
+import java.util.NoSuchElementException;
+
+/**
+ * @author Zeph Nord
+ * @version Lab09
+ * @version Date
+ * @version Winter 2017
+ */
+public class PrimeTools {
+
+	/**
+	 * Determines if the given number is a positive prime. You may use any
+	 * algorithm you wish including any that you find online. The algorithm
+	 * described below is rather ambitious.
+	 * 
+	 * @param value
+	 *            - the value to check for primarity
+	 * @return if the value is a positive prime; else false.
+	 */
+	public static boolean isPrime(int value) {
+		if(value < 1) {
+			return false;
+		}
+		
+	    //check if n is a multiple of 2
+	    if (value % 2 == 0) return false;
+	    //if not, then just check the odds
+	    for(int i=3;i*i<=value;i+=2) {
+	        if(value%i==0)
+	            return false;
+	    }
+	    return true;
+	}
+
+	/**
+	 * Finds and returns the first prime number greater than or equal to the
+	 * specified value.
+	 * 
+	 * @param value
+	 *            - the value at which to start looking; be sure to check its
+	 *            primality
+	 * @return - the first prime number greater than or equal to the specified
+	 *         value
+	 * @throws -
+	 *             IllegalArgumentException - if the value is negative
+	 *             NoSuchElementException - if no prime is found before
+	 *             exceeding Integer.MAX_VALUE
+	 */
+	public static int nextPrime(int value) {
+		if(value < 0) {
+			throw new IllegalArgumentException();
+		}
+		
+		/*
+		while(!isPrime(value)) {
+			value++;
+			if(value >= Integer.MAX_VALUE) {
+				throw new NoSuchElementException();
+			}
+		}
+		return value;
+		*/
+		BigInteger b = new BigInteger(String.valueOf(value));
+		return Integer.parseInt(b.nextProbablePrime().toString());
+	}
+}

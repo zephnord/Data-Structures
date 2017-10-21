@@ -1,0 +1,74 @@
+/**
+ * Contains the SimpleLinkedList class that implements the SimpleList interface
+ * This LinkedList is a generic doubly-linked implementation of SimpleList
+ * @author Zeph Nord
+ * @version Lab01 
+ * @version CPE 103-03
+ * @version Winter 2017
+ */
+public class SimpleLinkedList<T> implements SimpleList<T>{
+	private Node head;
+	private Node tail;
+	
+	//Constructor for SimpleLinkedList
+	public SimpleLinkedList() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#add(java.lang.Object)
+	 */
+	@Override
+	public void add(T element) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#add(int, java.lang.Object)
+	 */
+	@Override
+	public void add(int index, T element) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#get(int)
+	 */
+	@Override
+	public T get(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#remove(int)
+	 */
+	@Override
+	public T remove(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#size()
+	 */
+	@Override
+	public int size() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	private class Node {
+		private T value;
+		private Node<T> next;
+		private Node<T> previous;
+		
+		public Node(T value) {
+			this.value = value;
+			this.next = null;
+			this.previous = null;
+		}
+	}
+}

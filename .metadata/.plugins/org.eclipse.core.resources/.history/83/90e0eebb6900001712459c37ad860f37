@@ -1,0 +1,32 @@
+/**
+ * 
+ */
+
+/**
+ * @author Zeph Nord
+ * @version Lab01 
+ * @version Date
+ * @version Winter 2017
+ */
+public interface HashTable<T> {
+	/**
+	 * Returns true if this table contains the specified elements. This should take O(1) time on average.
+	 * @param element - the element whose presence in this table is to be tested
+	 * @return true if this table contains the specified element, false otherwise
+	 */
+	boolean contains(T element);
+	
+	/**
+	 * Returns true if this table contains no elements
+	 * @return true if this table contains no elements, false otherwise
+	 */
+	boolean isEmpty();
+	
+	/**
+	 * Adds the specified element to this talbe if an empty spot can be found. This should take O(1) time on average.
+	 * *If the table lraedy tonains an equivalent element, the elemen in the talbe is replaced with the new element, and the old element is returned. If no equivalemnt
+	 * @param element
+	 * @return
+	 */
+	T add(T element);
+}

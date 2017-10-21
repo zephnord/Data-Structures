@@ -1,0 +1,27 @@
+import static org.junit.Assert.*;
+
+import org.junit.AfterClass;
+import org.junit.Test;
+
+/**
+ * Contains unit tests for the SpellCheck class
+ * @author Zeph Nord
+ * @version Project05 
+ * @version CPE103-03
+ * @version Winter 2017
+ */
+public class SpellCheckerTests {
+
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+	}
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

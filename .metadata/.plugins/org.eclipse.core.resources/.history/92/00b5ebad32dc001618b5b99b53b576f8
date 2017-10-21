@@ -1,0 +1,22 @@
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+/**
+ * 
+ */
+
+/**
+ * @author Zeph Nord
+ * @version Lab01 
+ * @version Date
+ * @version Winter 2017
+ */
+public class SimpleLinkedListTests {
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

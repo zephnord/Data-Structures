@@ -1,0 +1,10 @@
+/**
+ * This class contains multiple implementations of Shell sort. This class contains no instance fields, no (non-private) methods other than those specified, and no explicit constructors.
+ * @author Zeph Nord
+ * @version Lab11 
+ * @version CPE103-03
+ * @version Winter 2017
+ */
+public class ShellSorts {
+	
+}

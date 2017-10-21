@@ -1,0 +1,49 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+/**
+ * Contains the Separator Class that allows a user to store Integer and Floating
+ * values to an array and then prints those values
+ * 
+ * @author Zeph Nord
+ * @version Lab00
+ * @version CPE102-05
+ * @version Winter 2017
+ */
+public class Separator {
+	public static void main(String[] args) {
+		final int N = 6;
+		int intCount = 0;
+		int floatCount = 0; //Counter to limit number of valid values stored
+		Scanner in = new Scanner(System.in);
+
+		//Initialize two ArrayLists to hold Integers and Floating values
+		ArrayList<Integer> intArray = new ArrayList<Integer>();
+		ArrayList<Float> floatArray = new ArrayList<Float>();
+
+		//Store a maximum of 6 Integer or Floating values from user input without prompt
+		while ((in.hasNextInt() && (intCount < N || floatCount < N)) || (in.hasNextFloat() && (intCount < N || floatCount < N)) {
+			if (in.hasNextInt() && intCount < N) {
+				intArray.add(in.nextInt());
+				intCount++;
+			} else if (in.hasNextFloat() && floatCount < N) {
+				floatArray.add(in.nextFloat());
+				floatCount++;
+			}
+		}
+
+		//Print the values to the screen
+		System.out.print("Integers: ");
+		for (int j = 0; j < intArray.size(); j++) {
+			System.out.print(intArray.get(j) + " ");
+		}
+
+		System.out.println();
+		System.out.print("Floats: ");
+		for (int j = 0; j < floatArray.size(); j++) {
+			System.out.print(floatArray.get(j) + " ");
+		}
+
+		in.close();
+	} //End main
+} //End Separator Class

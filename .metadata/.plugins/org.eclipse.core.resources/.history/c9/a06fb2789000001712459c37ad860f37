@@ -1,0 +1,41 @@
+/**
+ * Trivial JUnit test for Hash Table.
+ *
+ * @author Paul Hatalsky
+ * @version 03/01/2017 Developed for CPE 103 Program 5
+ */
+import static org.junit.Assert.*;
+import org.junit.*;
+import org.junit.runners.MethodSorters;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class HashTableSampleTests {
+
+   // A relatively trivial test
+   @Test(timeout=5000)
+   public void test01_basicCollisionsMaxCollisionsDuplicates() {
+      HashTableQuadratic<Integer> table = new HashTableQuadratic<Integer>(200); // Next prime is 211
+      Integer i1 = new Integer(522);
+
+      assertTrue(table.isEmpty());
+      assertEquals(211, table.tableSize());
+
+      for (int i = 11; i < 101; i++) {
+         assertEquals(null, table.add(i));
+      }   
+      assertEquals(null, table.add(311)); // Hashes to 100, goes to 101
+      assertEquals(1, table.collisions());
+      assertEquals(1, table.maxCollisions());
+      assertEquals(null, table.add(i1)); // Hashes to 100 goes to 104
+      assertEquals(3, table.collisions());
+      assertEquals(2, table.maxCollisions());
+      assertEquals(i1, table.add(522)); // Hashes to 100 goes to 104
+      assertEquals(5, table.collisions());
+      assertEquals(2, table.maxCollisions());
+      assertTrue(table.contains(522));
+      assertTrue(table.remove(522));
+      assertFalse(table.contains(522));
+      assertEquals(91, table.size()); 
+      assertEquals(91.0/211, table.loadFactor(), .000001);
+   }
+} 

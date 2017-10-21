@@ -1,0 +1,30 @@
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+/**
+ * 
+ */
+
+/**
+ * @author Zeph Nord
+ * @version Lab01 
+ * @version Date
+ * @version Winter 2017
+ */
+public class BinaryHeapUtilitiesTests {
+
+	//---------------------------------------------------------------
+	//Heap height tests
+	@Test
+	public void testHeapHeight() {
+		int[] arr = new int[10];
+		assertEquals(3, BinaryHeapUtilities.height(arr.length));
+	}
+	
+	@Test(expected = IllegalArgumentException.class) 
+	public void testNonPositiveSize() {
+		BinaryHeapUtilities.height(0);
+		BinaryHeapUtilities.height(-1);
+	}
+}

@@ -1,0 +1,61 @@
+import static org.junit.Assert.*;
+
+import java.util.concurrent.TimeUnit;
+
+import org.junit.AfterClass;
+import org.junit.FixMethodOrder;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.Stopwatch;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
+import org.junit.runners.MethodSorters;
+
+/**
+ * Contains unit tests for the SpellCheck class
+ * @author Zeph Nord
+ * @version Project05 
+ * @version CPE103-03
+ * @version Winter 2017
+ */
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class SpellCheckerTests {
+
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+	}
+
+	@Rule
+	public TestRule watcher = new TestWatcher() {
+		protected void starting(Description description) {
+			System.out.printf("\b\bStarting: %-60s", description.getMethodName());
+		}
+	};
+	@Rule
+	public Stopwatch sw = new Stopwatch() {
+		String s;
+
+		protected void finished(long nanos, Description description) {
+			System.out.println(s);
+		}
+
+		protected void succeeded(long nanos, Description description) {
+			s = " Passed" + " (" + runtime(TimeUnit.MILLISECONDS) + " ms)";
+		}
+
+		protected void failed(long nanos, Throwable e, Description description) {
+			s = " FAILED" + " (" + runtime(TimeUnit.MILLISECONDS) + " ms)";
+		}
+	};
+	
+	@Test
+	public void test01_addDictionary() {
+		
+	}
+
+}

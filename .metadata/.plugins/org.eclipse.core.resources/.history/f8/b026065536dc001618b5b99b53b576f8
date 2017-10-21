@@ -1,0 +1,83 @@
+/**
+ * Contains the SimpleLinkedList class that implements the SimpleList interface
+ * This LinkedList is a generic doubly-linked implementation of SimpleList
+ * @author Zeph Nord
+ * @version Lab01 
+ * @version CPE 103-03
+ * @version Winter 2017
+ */
+public class SimpleLinkedList<T> implements SimpleList<T>{
+	private Node<T> head;
+	private Node<T> tail;
+	private int size;
+	
+	//Constructor for SimpleLinkedList
+	//Generates a node with non-null values to act as dummy nodes
+	public SimpleLinkedList() {
+		this.size = 0;
+		this.head = new Node(0);
+		this.tail = new Node(0);
+		this.head.next = tail;
+		this.tail.previous = head;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#add(java.lang.Object)
+	 */
+	@Override
+	public void add(T element) {
+		Node<T> node = new Node(element);
+		head.next = node;
+		node.previous = head;
+		node.next = tail;
+		tail.previous = node;
+		size++;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#add(int, java.lang.Object)
+	 */
+	@Override
+	public void add(int index, T element) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#get(int)
+	 */
+	@Override
+	public T get(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#remove(int)
+	 */
+	@Override
+	public T remove(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#size()
+	 */
+	@Override
+	public int size() {
+		return size;
+	}
+	
+	private class Node<T> {
+		private T value;
+		private Node<T> next;
+		private Node<T> previous;
+		
+		public Node(T value) {
+			this.value = value;
+			this.next = null;
+			this.previous = null;
+		}
+	}
+}

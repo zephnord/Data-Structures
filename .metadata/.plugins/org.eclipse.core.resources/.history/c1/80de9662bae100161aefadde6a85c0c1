@@ -1,0 +1,131 @@
+import java.util.NoSuchElementException;
+
+/**
+ * Contains the CircularQueue class that implements the SimpleQueue interface
+ * Creates a generic array-based circular queue
+ * @author Zeph Nord
+ * @version Program1
+ * @version CPE 103-03
+ * @version Winter 2017
+ */
+public class CircularQueue<T> implements SimpleQueue<T> {
+	
+	//Class fields
+	private T[] arr; //holds the elements in the queue
+	private int back; //keeps track of the end of the queue
+	private int front; //keeps track of the front of the queue
+	static int INITIAL_LENGTH = 10; 
+	private int size; //Optional field, keeps track of the size of the queue
+	
+	//Class constructors
+	
+	/**
+	 * Constructs and empty queue with an initials capacity given by INITIAL_LENGTH
+	 */
+	public CircularQueue() {
+		this(INITIAL_LENGTH);
+	}
+	
+	/**
+	 * Constructs an empty queue with the specified initial capacity
+	 * @param initialCapacity - the initial capacity to construct the queue
+	 * @throws MyException if the initial capacity is non-positive
+	 */
+	@SuppressWarnings("unchecked")
+	public CircularQueue(int initialCapacity) {
+		if(initialCapacity <= 0) throw new CircularQueue.MyException();
+		this.arr = (T[]) new Object[initialCapacity];
+		this.front = 0;
+		this.back = 0;
+		this.size = 0;
+	}
+	
+	//Class methods
+
+	/* (non-Javadoc)
+	 * @see SimpleQueue#dequeue()
+	 */
+	@Override
+	public T dequeue() throws RuntimeException {
+		if(size == 0) throw new NoSuchElementException();
+		T tmpElement = arr[front];
+		front++;
+		size--;
+		return tmpElement;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleQueue#enqueue(java.lang.Object)
+	 */
+	@Override
+	public void enqueue(T element) {
+		if(back == arr.length - 1) {
+			doubleQueueSize(); //call helper method to double queue size
+		}
+		//back = increment(back);
+		arr[back] = element;
+		back++;
+		size++;		
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleQueue#peek()
+	 */
+	@Override
+	public T peek() throws RuntimeException {
+		if(size == 0) throw new NoSuchElementException();
+		return arr[front];
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleQueue#size()
+	 */
+	@Override
+	public int size() {
+		return size;
+	}
+	
+	public Object[] unusualMethodForTestingPurposesOnly() {
+		return arr;
+	}
+	
+	//Helper methods
+	@SuppressWarnings("unchecked")
+	private void doubleQueueSize() {
+		T[] tmpArr = (T[]) new Object[size * 2];
+		for(int i = 0; i < size; i++, front = increment(front)) {
+			tmpArr[i] = arr[front];
+		}
+		arr = tmpArr;
+		front = 0;
+		back = size;
+	}
+	
+	private int increment(int index) {
+		if(++index == arr.length) {
+			index = 0;
+		}
+		return index;
+	}
+	
+	
+	//Nested custom exception class
+	@SuppressWarnings("serial")
+	static public class MyException extends RuntimeException {
+		/**
+		 * Constructs a MyException with no detail message
+		 */
+		public MyException() {
+			super();
+		}
+		
+		/**
+		 * Constructs a MyException with the specified detail message
+		 * @param s - the detail message
+		 */
+		public MyException(String s){
+			super(s);
+		}
+	}
+	
+}

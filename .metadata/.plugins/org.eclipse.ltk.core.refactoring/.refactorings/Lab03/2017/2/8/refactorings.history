@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 2 elements to &apos;Project04/src&apos;&#x0D;&#x0A;- Original project: &apos;Lab03&apos;&#x0D;&#x0A;- Destination element: &apos;Project04/src&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     SimpleArrayStack.java&#x0D;&#x0A;     SimpleStack.java" description="Copy compilation units" destination="=Project04/src" element1="/src&lt;{SimpleArrayStack.java" element2="/src&lt;{SimpleStack.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1487557848074" units="2" version="1.0"/>
+</session>

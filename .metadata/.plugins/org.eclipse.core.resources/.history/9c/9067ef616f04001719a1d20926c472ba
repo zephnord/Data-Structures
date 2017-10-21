@@ -1,0 +1,123 @@
+import java.util.*;
+import java.io.*;
+
+/**
+ * Spell Checker class that uses HashMap
+ * files.
+ * 
+ * @author Zeph Nord
+ * @version CPE103-03
+ * @version Program05
+ */
+public class SpellChecker {
+	private HashTableQuadratic<String> dictionary;
+	private HashMap<String, MyStats> hm;
+
+	public SpellChecker() throws FileNotFoundException {
+		File f = new File("dictionary.txt");
+		dictionary = new HashTableQuadratic<String>(267119);
+		Scanner s = new Scanner(f);
+		while (s.hasNextLine()) {
+			String line = s.nextLine();
+			Scanner word = new Scanner(line);
+			while(word.hasNext()) {
+				
+				dictionary.add(word.next());
+			}
+		}
+	}
+
+	public SpellChecker(String fileName) throws FileNotFoundException {
+		File f = new File(fileName);
+		int words = 0;
+		//Scanner s = new Scanner(f);
+		dictionary = new HashTableQuadratic<String>();
+		Scanner s = new Scanner(f);
+		while (s.hasNextLine()) {
+			String line = s.nextLine();
+			Scanner word = new Scanner(line);
+			while(word.hasNext()) {
+				
+				dictionary.add(word.next());
+			}
+		}
+	}
+
+	public boolean isWord(String s) {
+		String s2 = s.toLowerCase();
+		return dictionary.contains(s) || dictionary.contains(s2);
+	}
+
+	public HashTableQuadratic<String> getDictionary() {
+		return dictionary;
+	}
+
+	public HashMap<String, MyStats> indexFile(String fileName) throws FileNotFoundException {
+		/*
+		 * int numWords = 0; int lineNum = 0; Scanner s = new Scanner(new
+		 * File(fileName)); Scanner s_line = null; s.useDelimiter("[^\\w-']+]");
+		 * 
+		 * HashMap<String, MyStats> hm = new HashMap<>(); // s.reset();
+		 * 
+		 * s_line = s; while(s_line.hasNext()){ lineNum++;
+		 * //s_line.useDelimiter("[^\\w-']+]"); //while(s.hasNext()){ String
+		 * word = s_line.next(); if(hm.containsKey(word)){ MyStats stats =
+		 * hm.get(word); stats.occur++; stats.lineNums.add(lineNum); stats.word
+		 * = isWord(word); } else{ hm.put(word, new MyStats()); }
+		 * 
+		 * }
+		 */
+		hm = new HashMap<>();
+		int numWords = 0;
+		int lineNum = 1;
+		Scanner in = new Scanner(new File(fileName));
+		// Scanner nextLine = new Scanner(new File(fileName));
+		Scanner inner = new Scanner(System.in);
+		in.useDelimiter("[^\\w-']+");
+
+		while (in.hasNextLine()) {
+
+			String nextLine = in.nextLine();
+			inner = new Scanner(nextLine);
+			inner.useDelimiter("[^\\w-']+");
+			while (inner.hasNext()) {
+				String next = inner.next();
+				if (hm.containsKey(next)) {					
+					MyStats stats = hm.get(next);
+					
+					stats.occur++;
+					stats.lineNums.add(lineNum);
+					//stats.word = isWord(next);
+				} else {
+					hm.put(next, new MyStats(isWord(next), lineNum));
+				}
+			}
+			lineNum++;
+		}
+		return hm;
+	}
+
+	public class MyStats {
+		private List<Integer> lineNums;
+		private int occur;
+		private boolean word;
+
+		public MyStats(boolean word, int lineNum) {
+			lineNums = new ArrayList<Integer>();
+			lineNums.add(lineNum);
+			this.word = word;
+			occur = 1;
+		}
+		public int getOccurrences() {
+			return occur;
+		}
+
+		public List<Integer> getLineNumbers() {
+			return lineNums;
+		}
+
+		public boolean isWord() {
+			return word;
+		}
+	}
+}

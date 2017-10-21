@@ -1,0 +1,217 @@
+import static org.junit.Assert.*;
+
+import java.util.concurrent.TimeUnit;
+
+import org.junit.FixMethodOrder;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.Stopwatch;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
+import org.junit.runners.MethodSorters;
+
+import HashTableQuadratic.HashTableInsertionException;
+
+/**
+ * Contains the unit tests for HashTableQuadratics class and its implemented
+ * interfaces
+ * 
+ * @author Zeph Nord
+ * @version Lab01
+ * @version Date
+ * @version Winter 2017
+ */
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class HashTableQuadtraticTests {
+
+	@Rule
+	public TestRule watcher = new TestWatcher() {
+		protected void starting(Description description) {
+			System.out.printf("\b\bStarting: %-60s", description.getMethodName());
+		}
+	};
+	@Rule
+	public Stopwatch sw = new Stopwatch() {
+		String s;
+
+		protected void finished(long nanos, Description description) {
+			System.out.println(s);
+		}
+
+		protected void succeeded(long nanos, Description description) {
+			s = " Passed" + " (" + runtime(TimeUnit.MILLISECONDS) + " ms)";
+		}
+
+		protected void failed(long nanos, Throwable e, Description description) {
+			s = " FAILED" + " (" + runtime(TimeUnit.MILLISECONDS) + " ms)";
+		}
+	};
+
+	// ----------------PrimeTools Tests--------------------
+	private static int[] primes = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67,
+			71, 73, 79, 83, 89, 97, 101 };
+
+	@Test
+	public void test01_isPrimeNegative() {
+		assertFalse(PrimeTools.isPrime(-3));
+	}
+
+	@Test
+	public void test02_isPrime0to100() {
+		for (int i = 0; i < 102; i++) {
+			if (i != 2 && i != 3 && i != 5 && i != 7 && i != 11 && i != 13 && i != 17 && i != 19 && i != 19 && i != 23
+					&& i != 29 && i != 31 && i != 37 && i != 41 && i != 43 && i != 47 && i != 53 && i != 59 && i != 61
+					&& i != 67 && i != 71 && i != 73 && i != 79 && i != 83 && i != 89 && i != 97 && i != 101) {
+				System.out.println(i);
+				assertFalse(PrimeTools.isPrime(i));
+			}
+		}
+	}
+
+	@Test
+	public void test03_nextPrime() {
+		int nextPrime = 37;
+		assertEquals(37, PrimeTools.nextPrime(34));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void test04_PrimeToolsNegative() {
+		PrimeTools.nextPrime(-1);
+	}
+
+	@Test
+	public void test05_PrimeToolsMax() {
+		int prime = Integer.MAX_VALUE;
+		assertEquals(2147483647, PrimeTools.nextPrime(prime - 1));
+	}
+
+	// ----------------HashTableQuadratic Constructor Tests--------------------
+
+	@Test
+	public void test06_quadraticConstructorValid() {
+		HashTableQuadratic<Integer> hashTable = new HashTableQuadratic<Integer>();
+		assertEquals(17, hashTable.tableSize());
+		// assertEquals(0.5, hashTable.loadFactor(), 0.0001);
+		assertEquals(0, hashTable.size());
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void test07_quadraticConstructorNegativeTableSize() {
+		HashTableQuadratic<Integer> hashTable = new HashTableQuadratic<Integer>(-1);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void test08_quadraticConstructorNegativeLoadFactor() {
+		HashTableQuadratic<Integer> hashTable = new HashTableQuadratic<Integer>(1, 0);
+	}
+
+	@Test
+	public void test09_quadraticConstructorNonPrimeTableSize() {
+		HashTableQuadratic<Integer> hashTable = new HashTableQuadratic<Integer>(500);
+		assertEquals(503, hashTable.tableSize());
+		// assertEquals(0.5, hashTable.loadFactor(), 0.0001);
+		assertEquals(0, hashTable.size());
+	}
+
+	// ----------------HashTable isEmpty() Tests--------------------
+
+	@Test
+	public void test10_isEmpty() {
+		HashTableQuadratic<Integer> hashTable = new HashTableQuadratic<Integer>();
+		assertTrue(hashTable.isEmpty());
+	}
+
+	@Test
+	public void test11_isEmptyAfterAdd() {
+		HashTableQuadratic<Integer> hashTable = new HashTableQuadratic<Integer>();
+		hashTable.add(1);
+		assertFalse(hashTable.isEmpty());
+	}
+
+	// ----------------HashTable add(T element) Tests--------------------
+
+	@Test
+	public void test12_addValid() {
+		Integer element = 1;
+		Integer[] tmpHashTable = new Integer[17];
+		long hashCode = (element.hashCode() % tmpHashTable.length);
+
+		HashTableQuadratic<Integer> hashTable = new HashTableQuadratic<Integer>();
+		hashTable.add(element);
+		assertTrue(hashTable.contains(element));
+		assertEquals(0, hashTable.collisions());
+		assertEquals(0, hashTable.maxCollisions());
+	}
+
+	@Test
+	public void test13_addValidDuplicateElement() {
+		Integer element = 1;
+		Integer[] tmpHashTable = new Integer[17];
+		long hashCode = (element.hashCode() % tmpHashTable.length);
+
+		HashTableQuadratic<Integer> hashTable = new HashTableQuadratic<Integer>();
+		assertEquals(null, hashTable.add(element));
+		assertEquals(element, hashTable.add(element));
+		assertTrue(hashTable.contains(element));
+		assertEquals(0, hashTable.collisions());
+		assertEquals(0, hashTable.maxCollisions());
+	}
+
+	@Test(expected = HashTableInsertionException.class)
+	public void test13_addValidWithCollisions() {
+		Integer[] elements = { 1, 18, 35, 52 };
+		Integer[] hashCodes = new Integer[elements.length];
+		for (int i = 0; i < elements.length; i++) {
+			hashCodes[i] = elements[i].hashCode();
+		}
+
+		Integer[] tmpHashTable = new Integer[17];
+
+		long hashCode = (elements[1].hashCode() % tmpHashTable.length);
+		HashTableQuadratic<Integer> hashTable = new HashTableQuadratic<Integer>();
+		for (int i = 0; i < elements.length; i++) {
+			hashTable.add(elements[i]);
+		} // will not add 51 to table
+
+		// hashTable.add(elements[1]);
+		assertTrue(hashTable.contains(elements[1]));
+		// assertTrue(hashTable.contains(elements[1]));
+		assertEquals(6, hashTable.collisions());
+		assertEquals(3, hashTable.maxCollisions());
+	}
+
+	@Test(timeout = 5000)
+	public void test14_basicCollisionsMaxCollisionsDuplicates() {
+		HashTableQuadratic<Integer> table = new HashTableQuadratic<Integer>(200); // Next
+																					// prime
+																					// is
+																					// 211
+		Integer i1 = new Integer(522);
+
+		assertTrue(table.isEmpty());
+		assertEquals(211, table.tableSize());
+
+		for (int i = 11; i < 101; i++) {
+			assertEquals(null, table.add(i));
+		}
+		assertEquals(null, table.add(311)); // Hashes to 100, goes to 101
+		assertEquals(1, table.collisions());
+		assertEquals(1, table.maxCollisions());
+		assertEquals(null, table.add(i1)); // Hashes to 100 goes to 104
+		assertEquals(3, table.collisions());
+		assertEquals(2, table.maxCollisions());
+		assertEquals(i1, table.add(522)); // Hashes to 100 goes to 104
+		assertEquals(5, table.collisions());
+		assertEquals(2, table.maxCollisions());
+		assertTrue(table.contains(522));
+		assertTrue(table.remove(522));
+		assertFalse(table.contains(522));
+		assertEquals(91, table.size());
+		assertEquals(91.0 / 211, table.loadFactor(), .000001);
+	}
+
+	
+	
+}

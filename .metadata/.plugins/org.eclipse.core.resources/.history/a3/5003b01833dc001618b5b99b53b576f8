@@ -1,0 +1,98 @@
+/**
+ * Contains the SimpleLinkedList class that implements the SimpleList interface
+ * @author Zeph Nord
+ * @version Lab01 
+ * @version CPE 103-03
+ * @version Winter 2017
+ */
+public class SimpleLinkedList<T> implements SimpleList{
+
+	/**
+	 * 
+	 */
+	public SimpleLinkedList() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#add(java.lang.Object)
+	 */
+	@Override
+	public void add(T element) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#add(int, java.lang.Object)
+	 */
+	@Override
+	public void add(int index, T element) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#get(int)
+	 */
+	@Override
+	public Object get(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#remove(int)
+	 */
+	@Override
+	public Object remove(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#size()
+	 */
+	@Override
+	public int size() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#add(java.lang.Object)
+	 */
+	@Override
+	public void add(T element) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#add(int, java.lang.Object)
+	 */
+	@Override
+	public void add(int index, T element) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#get(int)
+	 */
+	@Override
+	public T get(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see SimpleList#remove(int)
+	 */
+	@Override
+	public T remove(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,35 @@
+Bubble Sort 1        2,500 elements     (observed):        4605 ns
+                     5,000 elements     (observed):       11320 ns
+                    10,000 elements     (observed):       25531 ns
+                    20,000 elements     (observed):       57236 ns
+                    40,000 elements     (observed):      140091 ns
+                   500,000 elements   (calculated):    21889218 ns
+                 5,000,000 elements   (calculated):  2188921875 ns
+                50,000,000 elements   (calculated): 2.18892E+11 ns 
+
+Bubble Sort 2        2,500 elements     (observed):        6997 ns
+                     5,000 elements     (observed):       11776 ns
+                    10,000 elements     (observed):       25193 ns
+                    20,000 elements     (observed):       55346 ns
+                    40,000 elements     (observed):      127339 ns
+                   500,000 elements   (calculated):    19896718 ns
+                 5,000,000 elements   (calculated):  1989671875 ns
+                50,000,000 elements   (calculated): 1.98967E+11 ns
+
+Selection Sort       2,500 elements     (observed):        4843 ns
+                     5,000 elements     (observed):        5045 ns
+                    10,000 elements     (observed):        8359 ns
+                    20,000 elements     (observed):       16789 ns
+                    40,000 elements     (observed):       35085 ns
+                   500,000 elements   (calculated):     5482031 ns
+                 5,000,000 elements   (calculated):   548203125 ns
+                50,000,000 elements   (calculated): 54820312500 ns
+
+Insertion Sort       2,500 elements     (observed):        2419 ns
+                     5,000 elements     (observed):        6400 ns
+                    10,000 elements     (observed):        5289 ns
+                    20,000 elements     (observed):       11869 ns
+                    40,000 elements     (observed):       27633 ns
+                   500,000 elements   (calculated):     4317656 ns
+                 5,000,000 elements   (calculated):   431765625 ns
+                50,000,000 elements   (calculated): 43176562500 ns

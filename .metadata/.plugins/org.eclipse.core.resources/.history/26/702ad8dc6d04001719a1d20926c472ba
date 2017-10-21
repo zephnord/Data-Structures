@@ -1,0 +1,143 @@
+import java.util.*;
+import java.io.*;
+
+/**
+ * Spell Checker class that uses HashMap and HashTableSC to spell check txt
+ * files.
+ * 
+ * @author Steven Bradley
+ * @date November 17 2016
+ * @version Program 5 - Spell Checker
+ */
+public class SpellChecker {
+	// <editor-fold desc="Private Fields">
+	// Fields
+	HashTableQuadratic<String> dictionary;
+	HashMap<String, MyStats> hm;
+	// </editor-fold>
+
+	// <editor-fold desc="Constructors">
+
+	public SpellChecker() throws FileNotFoundException {
+		File f = new File("dictionary.txt");
+		dictionary = new HashTableQuadratic<String>(267119);
+		Scanner s = new Scanner(f);
+		while (s.hasNextLine()) {
+			String line = s.nextLine();
+			Scanner word = new Scanner(line);
+			while(word.hasNext()) {
+				
+				dictionary.add(word.next());
+			}
+		}
+	}
+
+	public SpellChecker(String fileName) throws FileNotFoundException {
+		File f = new File(fileName);
+		int words = 0;
+		//Scanner s = new Scanner(f);
+		dictionary = new HashTableQuadratic<String>();
+		Scanner s = new Scanner(f);
+		while (s.hasNextLine()) {
+			String line = s.nextLine();
+			Scanner word = new Scanner(line);
+			while(word.hasNext()) {
+				
+				dictionary.add(word.next());
+			}
+		}
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="Methods">
+
+	public boolean isWord(String s) {
+		String s2 = s.toLowerCase();
+		return dictionary.contains(s) || dictionary.contains(s2);
+	}
+
+	public HashTableQuadratic<String> getDictionary() {
+		return dictionary;
+	}
+
+	public HashMap<String, MyStats> indexFile(String fileName) throws FileNotFoundException {
+		/*
+		 * int numWords = 0; int lineNum = 0; Scanner s = new Scanner(new
+		 * File(fileName)); Scanner s_line = null; s.useDelimiter("[^\\w-']+]");
+		 * 
+		 * HashMap<String, MyStats> hm = new HashMap<>(); // s.reset();
+		 * 
+		 * s_line = s; while(s_line.hasNext()){ lineNum++;
+		 * //s_line.useDelimiter("[^\\w-']+]"); //while(s.hasNext()){ String
+		 * word = s_line.next(); if(hm.containsKey(word)){ MyStats stats =
+		 * hm.get(word); stats.occur++; stats.lineNums.add(lineNum); stats.word
+		 * = isWord(word); } else{ hm.put(word, new MyStats()); }
+		 * 
+		 * }
+		 */
+		hm = new HashMap<>();
+		int numWords = 0;
+		int lineNum = 0;
+		Scanner in = new Scanner(new File(fileName));
+		// Scanner nextLine = new Scanner(new File(fileName));
+		Scanner inner = new Scanner(System.in);
+		in.useDelimiter("[^\\w-']+");
+
+		while (in.hasNextLine()) {
+
+			String nextLine = in.nextLine();
+			inner = new Scanner(nextLine);
+			while (inner.hasNext()) {
+				String next = inner.next();
+				if (hm.containsKey(next)) {					
+					MyStats stats = hm.get(next);
+					
+					stats.occur++;
+					stats.lineNums.add(lineNum);
+					stats.word = isWord(next);
+				} else {
+					hm.put(next, new MyStats());
+				}
+			}
+			lineNum++;
+		}
+		return hm;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="Private Inner Class">
+
+	public class MyStats {
+
+		// <editor-fold desc="Private Fields">
+		private List<Integer> lineNums;
+		private int occur;
+		boolean word;
+		// </editor-fold>
+
+		// <editor-fold desc="Constructors">
+		public MyStats() {
+			lineNums = new ArrayList<Integer>();
+			occur = 1;
+		}
+		// </editor-fold>
+
+		// <editor-fold desc="Methods">
+		// Methods
+		public int getOccurrences() {
+			return occur;
+		}
+
+		public List<Integer> getLineNumbers() {
+			return lineNums;
+		}
+
+		public boolean isWord() {
+			return word;
+		}
+		// </editor-fold>
+	}
+	// </editor-fold>
+}
